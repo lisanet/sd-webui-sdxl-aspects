@@ -40,17 +40,15 @@ class AspectScript(scripts.Script):
 
     def ui(self, is_img2img):
         tab = elem_id=f'{"img" if is_img2img else "txt"}2img'
-        with gr.Column(elem_id=f'{tab}_container_sdxl_aspect'):
-            gr.Markdown()
-            with FormRow():
+        with gr.Column(variant="panel", elem_id=f'{tab}_container_sdxl_aspect'):
+            with FormRow(variant="compact"):
                 with gr.Column(scale=4):
                     slider = gr.Slider(0, 6, step=1, label="Aspect type", elem_id=f'{tab}_sdxl_aspect_type')
-                with gr.Column(min_width=50, scale=1):
+                with gr.Column(min_width=40, scale=1):
                     ar = gr.Textbox("1:1", label="Aspect ratio", show_label=True, interactive=False, elem_id=f'{tab}_sdxl_aspect_ar')
-            with FormRow():
+            with FormRow(variant="compact"):
                 crop = gr.Checkbox(label="Crop to fit aspect ratio", value=False, elem_id=f'{tab}_sdxl_aspect_crop')
                 overwrite = gr.Checkbox(label="Overwrite uncropped image", value=False, elem_id=f'{tab}_sdxl_aspect_overwrite')
-            gr.Markdown()
         slider.change(self.get_aspect, inputs=[slider], outputs=[ar, self.dims_w, self.dims_h], show_progress=False)
         
         return [slider, ar, crop, overwrite]
